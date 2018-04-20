@@ -1,2 +1,2 @@
 # kwiki
-MACs Knowledge Wiki
+MACs Knowledge [Wiki](https://github.com/MobileApplicationsClub/kwiki/wiki)
