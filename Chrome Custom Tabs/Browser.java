@@ -1,8 +1,12 @@
-package com.macbitsgoa.ard.utils;
+// package com.macbitsgoa.ard.utils;
 
 import android.app.Activity;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.res.TypedArray;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
@@ -16,10 +20,8 @@ import android.support.v4.content.ContextCompat;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import com.macbitsgoa.ard.R;
+// import com.macbitsgoa.ard.R;
 
-import static com.macbitsgoa.ard.utils.AHC.dpToPx;
-import static com.macbitsgoa.ard.utils.AHC.getBitmapFromDrawable;
 import static com.macbitsgoa.ard.utils.BrowserUtil.ACTION_BUTTON_HEIGHT;
 import static com.macbitsgoa.ard.utils.BrowserUtil.CLOSE_BUTTON_HEIGHT;
 import static com.macbitsgoa.ard.utils.BrowserUtil.CLOSE_BUTTON_WIDTH;
@@ -50,6 +52,21 @@ import static com.macbitsgoa.ard.utils.BrowserUtil.CLOSE_BUTTON_WIDTH;
  */
 @SuppressWarnings("WeakerAccess")
 public final class Browser {
+    
+    /**
+     * Height of action button (must be 24dp according to docs).
+     */
+    public static final int ACTION_BUTTON_HEIGHT = 24;
+
+    /**
+     * Height of close button (must be 24dp according to docs).
+     */
+    public static final int CLOSE_BUTTON_HEIGHT = 24;
+
+    /**
+     * Width of close button (must be 24dp according to docs).
+     */
+    public static final int CLOSE_BUTTON_WIDTH = 24;
 
     /**
      * Host activity.
@@ -89,6 +106,7 @@ public final class Browser {
 
     /**
      * Default customization.
+     * Note: You should put your default assets here.
      */
     private void initDefault() {
         final int[] attrs = {R.attr.customTab_toolbar_color};
@@ -249,4 +267,34 @@ public final class Browser {
 
         mCustomTabsIntent = mBuilder.build();
     }
+    
+    /**
+     * Method to get pixel value corresponding to input dp.
+     *
+     * @param context of calling method.
+     * @param dp      value to be converted in dp.
+     * @return converted value in pixels.
+     */
+    public static float dpToPx(final Context context, final float dp) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
+    }
+
+    /**
+     * Method to get bitmap from vector drawable.
+     *
+     * @param drawable Input {@link android.graphics.drawable.Drawable}
+     * @param width    The width of resultant bitmap in pixels.
+     * @param height   The height of resultant bitmap in pixels.
+     * @return converted bitmap.
+     */
+    public static Bitmap getBitmapFromDrawable(final Drawable drawable, final int width, final int height) {
+        final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        final Canvas canvas = new Canvas(bitmap);
+
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
 }
